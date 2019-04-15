@@ -12,13 +12,17 @@ npm install @strong-roots-capital/next-session-open
 
 ```typescript
 import { nextSessionOpen } from '@strong-roots-capital/next-session-open'
-// TODO: describe usage
+
+const now = new Date()
+
+console.log(now)
+//=>2019-04-15T00:04:34.924Z
+
+console.log(nextSessionOpen('1W', now))
+//=>2019-04-22T00:00:00.000Z
 ```
 
 ## Related
 
-TODO
-
-## Acknowledgments
-
-TODO
+- [add-timeframe](https://gitlab.com/strong-roots-capital/add-timeframe)
+- [is-tradingview-format](https://github.com/strong-roots-capital/is-tradingview-format)

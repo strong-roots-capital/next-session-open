@@ -1,6 +1,6 @@
 {
   "name": "@strong-roots-capital/next-session-open",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Return date of next session-open (inclusive)",
   "main": "dist/src/next-session-open.js",
   "types": "dist/src/next-session-open.d.ts",

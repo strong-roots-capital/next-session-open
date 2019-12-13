@@ -3,13 +3,11 @@
  * Return date of next session-open (inclusive)
  */
 
-const debug = require('debug')('next-session-open')
-
+import D from 'od'
 import ow from 'ow'
-import moment from 'moment'
-import session from 'market-session'
 import getRecentSessions from '@strong-roots-capital/get-recent-sessions'
 import { addTimeframe } from '@strong-roots-capital/add-timeframe'
+import { inTradingviewFormat } from '@strong-roots-capital/is-tradingview-format'
 
 
 /**
@@ -29,18 +27,15 @@ import { addTimeframe } from '@strong-roots-capital/add-timeframe'
  */
 export function nextSessionOpen(timeframe: string, from: Date): Date {
 
+    ow(timeframe, ow.string.is(inTradingviewFormat))
     ow(from, ow.date)
 
-    const now = moment.utc(from).startOf('minute')
-    const [lastSessionOpen, ..._] = getRecentSessions(timeframe, now.toDate()).reverse()
+    const now = D.startOf('minute', from)
+    const lastSessionOpen = getRecentSessions(timeframe, now).pop()!
 
-    const nextSessionOpen = now.isSame(lastSessionOpen)
-        ? now.toDate()
+    const nextSessionOpen = now.getTime() === lastSessionOpen
+        ? now
         : addTimeframe(timeframe, new Date(lastSessionOpen))
-
-    debug(`now is:             ${now.toISOString()}`)
-    debug(`lastSessionOpen is: ${moment.utc(lastSessionOpen).toISOString()}`)
-    debug(`nextSessionOpen is: ${nextSessionOpen.toISOString()}`)
 
     return nextSessionOpen
 }
